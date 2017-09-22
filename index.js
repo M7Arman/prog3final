@@ -1,37 +1,57 @@
 const scrapeIt = require("scrape-it");
-var jsonfile = require('jsonfile')
+var request = require("request");
+var jsonfile = require('jsonfile');
 
 function getPageItems(pageNum) {
-    console.log("aAAAaaaaa")
-    // Promise interface
-    scrapeIt("https://www.list.am/category/23/" + pageNum, {
-        cars: {
-            listItem: ".gl a",
-            data: {
-                image: {
-                    selector: "img",
-                    attr: "src"
-                },
-                title: "div.l:nth-child(2)",
-                price: ".l2 .l",
-                url: {
-                    attr: 'href'
+    var isFinished = false;
+    var url = "https://www.list.am/category/23/" + pageNum;
+    request({ url: url, followRedirect: false }, function (err, res, body) {
+        if (res.headers.location != null) {
+            console.log("Job Finished on page " + pageNum);
+            isFinished = true;
+            return;
+        }
+        var cars = scrapeIt.scrapeHTML(body, {
+            cars: {
+                listItem: ".gl a",
+                data: {
+                    image: {
+                        selector: "img",
+                        attr: "src"
+                    },
+                    title: "div.l:nth-child(2)",
+                    price: ".l2 .l",
+                    url: {
+                        attr: 'href'
+                    }
                 }
             }
+        });
+        console.log(cars);
+        jsonfile.writeFile('cars.json', cars, { spaces: 2, EOL: '\r\n' }, function (err) {
+            if (null != err) {
+                console.error("ERROR: " + err);
+            }
+        });
+    });
+    console.log("!!!!!!!!!" + isFinished);
+    return isFinished;
+}
+
+function timeout(i) {
+    to = setTimeout(function () {
+        var isFinished = getPageItems(i);
+        console.log("Is Finished: " , isFinished);
+        if (isFinished) {
+            console.log(i + " aaaa");
+            i = -1;
+        }
+        if (i != -1) {
+            i++;
+            timeout(i);
         }
 
-    }).then(page => {
-        console.log(page);
-        jsonfile.writeFile('cars.json', page, { spaces: 2, EOL: '\r\n' }, function (err) {
-            console.error(err)
-        })
-    }).then(()=>{console.log('-----!!!')});
-
-}
-var i = 0;
-while (i < 2) {
-    i++;
-    setTimeout(getPageItems, 1500, i);
-    console.log("++++++++++++++++")
+    }, 3000);
 }
 
+timeout(1028);
