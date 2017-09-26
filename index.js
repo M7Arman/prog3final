@@ -1,11 +1,13 @@
 const scrapeIt = require("scrape-it");
 var request = require("request");
 var jsonfile = require('jsonfile');
+var promise = require('promise');
+
 
 function getPageItems(pageNum) {
     var isFinished = false;
     var url = "https://www.list.am/category/23/" + pageNum;
-    request({ url: url, followRedirect: false }, function (err, res, body) {
+    var x = new Promise(request({ url: url, followRedirect: false }, function (err, res, body) {
         if (res.headers.location != null) {
             console.log("Job Finished on page " + pageNum);
             isFinished = true;
@@ -33,20 +35,16 @@ function getPageItems(pageNum) {
                 console.error("ERROR: " + err);
             }
         });
-    });
-    console.log("!!!!!!!!!" + isFinished);
+    }));
+    x.then(console.log(isFinished));
     return isFinished;
 }
 
 function timeout(i) {
     to = setTimeout(function () {
         var isFinished = getPageItems(i);
-        console.log("Is Finished: " , isFinished);
-        if (isFinished) {
-            console.log(i + " aaaa");
-            i = -1;
-        }
-        if (i != -1) {
+        console.log("Is Finished: ", isFinished);
+        if (!isFinished) {
             i++;
             timeout(i);
         }
