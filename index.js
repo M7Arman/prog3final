@@ -7,7 +7,7 @@ var promise = require('promise');
 function getPageItems(pageNum) {
     var isFinished = false;
     var url = "https://www.list.am/category/23/" + pageNum;
-    var x = new Promise(request({ url: url, followRedirect: false }, function (err, res, body) {
+    request({ url: url, followRedirect: false }, function (err, res, body) {
         if (res.headers.location != null) {
             console.log("Job Finished on page " + pageNum);
             isFinished = true;
@@ -35,8 +35,7 @@ function getPageItems(pageNum) {
                 console.error("ERROR: " + err);
             }
         });
-    }));
-    x.then(console.log(isFinished));
+    });
     return isFinished;
 }
 

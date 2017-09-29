@@ -1,0 +1,113 @@
+{
+  "cars": [
+    {
+      "image": "//s.list.am/g/232/21414232.jpg",
+      "title": "VAZ / ВАЗ / Lada 2106, 1980 թ.",
+      "price": "$1,000",
+      "url": "/item/8101828"
+    },
+    {
+      "image": "//s.list.am/g/353/20083353.jpg",
+      "title": "",
+      "price": "$32,000",
+      "url": "/item/7744111"
+    },
+    {
+      "image": "//s.list.am/g/083/21337083.jpg",
+      "title": "Mercedes-Benz E",
+      "price": "6,600 ֏",
+      "url": "/item/8078373"
+    },
+    {
+      "image": "//s.list.am/g/076/21164076.jpg",
+      "title": "Volkswagen Golf 5 GT, 2008 թ.",
+      "price": "$5,500",
+      "url": "/item/7981582"
+    },
+    {
+      "image": "//s.list.am/g/212/21475212.jpg",
+      "title": "Toyota Ipsum, 2004 թ.",
+      "price": "$4,400",
+      "url": "/item/8083032"
+    },
+    {
+      "image": "//s.list.am/g/783/21658783.jpg",
+      "title": "Opel Astra, 1998 թ. Gaz 1.6 balon normal vijak universal Astra g furgun",
+      "price": "$1,900",
+      "url": "/item/8110311"
+    },
+    {
+      "image": "//s.list.am/g/297/21612297.jpg",
+      "title": "Kgnem opel Zafira 2006-2010 Avttomat",
+      "price": "",
+      "url": "/item/8156852"
+    },
+    {
+      "image": "//s.list.am/g/166/21493166.jpg",
+      "title": "",
+      "price": "3,900 ֏",
+      "url": "/item/8124412"
+    },
+    {
+      "image": "//s.list.am/g/737/19580737.jpg",
+      "title": "Lexus GX470 2004 թ.",
+      "price": "$13,900",
+      "url": "/item/6879065"
+    },
+    {
+      "title": "",
+      "price": "$4,950",
+      "url": "/item/5014879"
+    },
+    {
+      "title": "Mercedes-Benz C, 2000 թ.",
+      "price": "$3,500",
+      "url": "/item/7661694"
+    },
+    {
+      "title": "Nissan Skyline, 2001 թ.",
+      "price": "$3,000",
+      "url": "/item/7351433"
+    },
+    {
+      "title": "Opel Vectra-B, 1996 թ.",
+      "price": "$1,200",
+      "url": "/item/7221572"
+    },
+    {
+      "title": "Volkswagen Passat, 2002 թ.",
+      "price": "$3,650",
+      "url": "/item/7661619"
+    },
+    {
+      "title": "Nissan Tiida, 2005 թ.",
+      "price": "$3,700",
+      "url": "/item/6119742"
+    },
+    {
+      "title": "VAZ / ВАЗ / Lada 2115 Samara, 2006 թ.",
+      "price": "2,200 ֏",
+      "url": "/item/7558847"
+    },
+    {
+      "title": "Vaz / ваз / lada 2106",
+      "price": "89,000 ֏",
+      "url": "/item/6941893"
+    },
+    {
+      "title": "Honda Fit, 2004 թ.",
+      "price": "$3,000",
+      "url": "/item/6299899"
+    },
+    {
+      "title": "Opel Vectra, 1993 թ.",
+      "price": "600,000 ֏",
+      "url": "/item/7305634"
+    },
+    {
+      "title": "Mercedes-Benz c 220, 1994 թ.",
+      "price": "$3,500",
+      "url": "/item/6949798"
+    }
+  ]
+}

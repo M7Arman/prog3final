@@ -128,6 +128,6 @@ $(window).resize(function () {
     drawPieChart();
     drawColumnChart();
     drawAreaChart();
-    drawRegionsMap();
+    //drawRegionsMap();
     drawTable();
 });
