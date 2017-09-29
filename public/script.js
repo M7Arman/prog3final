@@ -6,6 +6,8 @@ google.charts.setOnLoadCallback(drawAreaChart);
 google.charts.setOnLoadCallback(drawGeoChart);
 google.charts.setOnLoadCallback(drawTable);
 
+var URL = "https://www.list.am";
+
 function drawPieChart() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Element');
@@ -49,15 +51,15 @@ function drawColumnChart() {
 
 function drawAreaChart() {
     var data = google.visualization.arrayToDataTable([
-        ['Year', 'Sales', 'Expenses'],
-        ['2013', 1000, 400],
-        ['2014', 1170, 460],
-        ['2015', 660, 1120],
-        ['2016', 1030, 540]
+        ['Year', 'Sales'],
+        ['2013', 1000],
+        ['2014', 1170],
+        ['2015', 660],
+        ['2016', 1030]
     ]);
 
     var options = {
-        title: 'Company Performance',
+        title: 'Cars',
         hAxis: { title: 'Year', titleTextStyle: { color: '#333' } },
         vAxis: { minValue: 0 }
     };
@@ -90,8 +92,6 @@ function drawTable() {
             data.addColumn('string', 'Names');
             data.addColumn('string', 'Prices');
             data.addColumn('string', 'Year');
-            data.addColumn('number', 'imagesCount');
-
             for (var i = 0; i < jsonData.length; i++) {
                 if(jsonData[i].title == "") {
                     continue;
@@ -102,10 +102,9 @@ function drawTable() {
                 var dotI = carData[1].indexOf('.');
                 var year = carData[1].substring(0, dotI != -1 ? dotI : carData[1].length);
                 data.addRow([
-                    carData[0],
+                    "<a href=\"" +  (URL + jsonData[i].url) + "\">" + carData[0] + "</a>",
                     jsonData[i].price,
                     year,
-                    jsonData[i].imagesCount,
                 ]);
             }
 
@@ -117,8 +116,6 @@ function drawTable() {
             };
 
             var table = new google.visualization.Table(document.getElementById('barformat_div'));
-            var formatter = new google.visualization.BarFormat({ width: 100 });
-            formatter.format(data, 3); // Apply formatter to 3rd column
             table.draw(data, options);
         }
     });
@@ -128,6 +125,5 @@ $(window).resize(function () {
     drawPieChart();
     drawColumnChart();
     drawAreaChart();
-    //drawRegionsMap();
     drawTable();
 });
