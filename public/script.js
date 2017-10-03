@@ -9,26 +9,49 @@ google.charts.setOnLoadCallback(drawTable);
 var URL = "https://www.list.am";
 
 function drawPieChart() {
+    var chartData = [
+        ['Less then 1500$', 0],
+        ['1500$ - 4000$', 0],
+        ['More than 4000$', 0]
+    ];
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Element');
     data.addColumn('number', 'Percentage');
-    data.addRows([
-        ['Nitrogen', 0.78],
-        ['Oxygen', 0.21],
-        ['Other', 0.01]
-    ]);
+    $.ajax({
+        url: "/cars",
+        dataType: "json",
+        success: function (cars) {
+            for (var i = 0; i < cars.length; i++) {
+                if (cars[i].price == "") continue;
+                cars[i].price.replace("0", ".");
+                console.log("aaa", cars[i].price);
+                var price = parseFloat(cars[i].price.replace(/\D/g, ''), 10);
+                console.log("price", price)
+                if (price < 1500) {
+                    chartData[0][1]++;
+                } else if (price < 4000) {
+                    chartData[1][1]++;
+                } else if (price < 17000) { //NOTE: to handle issue with amd prices
+                    chartData[2][1]++;
+                }
+            }
+            console.log(chartData);
+            data.addRows(chartData);
 
-    var options = {
-        legend: 'left',
-        title: 'Air Composition',
-        is3D: false,
-        width: '100%',
-        height: '100%'
-    };
-    //console.log(data.toJSON());
-    // Instantiate and draw the chart.
-    var chart = new google.visualization.PieChart(document.getElementById('chart_div0'));
-    chart.draw(data, options);
+
+            var options = {
+                legend: 'left',
+                title: 'Air Composition',
+                is3D: false,
+                width: '100%',
+                height: '100%'
+            };
+            //console.log(data.toJSON());
+            // Instantiate and draw the chart.
+            var chart = new google.visualization.PieChart(document.getElementById('chart_div0'));
+            chart.draw(data, options);
+        }
+    });
 }
 
 function drawColumnChart() {
