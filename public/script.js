@@ -50,22 +50,48 @@ function drawColumnChart() {
 }
 
 function drawAreaChart() {
-    var data = google.visualization.arrayToDataTable([
-        ['Year', 'Sales'],
-        ['2013', 1000],
-        ['2014', 1170],
-        ['2015', 660],
-        ['2016', 1030]
-    ]);
+    var date = [
+        ['Year', 'Cars'],
+        ['until 1990', 0],
+        ['1990 - 2000', 0],
+        ['2000 - 2005', 0],
+        ['2005 - 2010', 0],
+        ['since 2010', 0]
+    ];
+    $.ajax({
+        url: "/cars",
+        dataType: "json",
+        success: function (cars) {
+            for (var i = 0; i < cars.length; i++) {
+                if (cars[i].title == "") continue;
+                var yearWithText = cars[i].title.split(", ");
+                if (yearWithText[1] == undefined) continue;
+                var year = parseInt(yearWithText[1], 10);
+                if (year < 1990) {
+                    date[1][1]++;
+                } else if (year < 2000) {
+                    date[2][1]++;
+                } else if (year < 2005) {
+                    date[3][1]++;
+                } else if (year < 2010) {
+                    date[4][1]++;
+                } else {
+                    date[5][1]++;
+                }
+            }
+            var data = google.visualization.arrayToDataTable(date);
 
-    var options = {
-        title: 'Cars',
-        hAxis: { title: 'Year', titleTextStyle: { color: '#333' } },
-        vAxis: { minValue: 0 }
-    };
+            var options = {
+                title: 'Cars in list.am',
+                hAxis: { title: 'Year', titleTextStyle: { color: '#333' } },
+                vAxis: { minValue: 0 }
+            };
 
-    var chart = new google.visualization.AreaChart(document.getElementById('chart_div2'));
-    chart.draw(data, options);
+            var chart = new google.visualization.AreaChart(document.getElementById('chart_div2'));
+            chart.draw(data, options);
+        }
+    });
+
 }
 
 function drawGeoChart() {
@@ -93,16 +119,15 @@ function drawTable() {
             data.addColumn('string', 'Prices');
             data.addColumn('string', 'Year');
             for (var i = 0; i < jsonData.length; i++) {
-                if(jsonData[i].title == "") {
+                if (jsonData[i].title == "") {
                     continue;
                 }
-                console.log(jsonData[i].title);
                 var carData = jsonData[i].title.split(", ");
-                if(carData[1] == undefined) continue;
+                if (carData[1] == undefined) continue;
                 var dotI = carData[1].indexOf('.');
                 var year = carData[1].substring(0, dotI != -1 ? dotI : carData[1].length);
                 data.addRow([
-                    "<a href=\"" +  (URL + jsonData[i].url) + "\">" + carData[0] + "</a>",
+                    "<a href=\"" + (URL + jsonData[i].url) + "\">" + carData[0] + "</a>",
                     jsonData[i].price,
                     year,
                 ]);
