@@ -2,6 +2,7 @@ const scrapeIt = require("scrape-it");
 var request = require("request");
 var jsonfile = require('jsonfile');
 var promise = require('promise');
+var merge = require('deepmerge');
 
 
 function getPageItems(pageNum) {
@@ -29,14 +30,35 @@ function getPageItems(pageNum) {
                 }
             }
         });
-        console.log(cars);
-        jsonfile.writeFile('cars.json', cars, { spaces: 2, EOL: '\r\n' }, function (err) {
+        // console.log(cars);
+        writeInFile(cars, "cars.json", "cars");
+
+    });
+    return isFinished;
+}
+
+function writeInFile(json, fileName, rootKey) {
+    var resJson;
+    jsonfile.readFile(fileName, function (err, fileData) {
+        if (fileData != undefined && fileData[rootKey] != null) {
+            resJson = merge(fileData[rootKey], json[rootKey], { arrayMerge: concatMerge });
+        } else {
+            resJson = json
+        }
+        jsonfile.writeFile(fileName, resJson, { spaces: 2, EOL: '\r\n' }, function (err) {
             if (null != err) {
                 console.error("ERROR: " + err);
             }
         });
-    });
-    return isFinished;
+    })
+
+}
+
+function concatMerge(destinationArray, sourceArray, options) {
+    destinationArray // => [1, 2, 3]
+    sourceArray // => [3, 2, 1]
+    options // => { arrayMerge: concatMerge }
+    return destinationArray.concat(sourceArray)
 }
 
 function timeout(i) {
