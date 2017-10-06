@@ -42,13 +42,13 @@ function getPageItems(pageNum) {
 function timeout(i) {
     to = setTimeout(function () {
         var isFinished = getPageItems(i);
-        console.log("Is Finished: ", isFinished);
-        if (!isFinished) {
-            i++;
-            timeout(i);
+        if (isFinished) {
+            console.log("Is Finished!");
         }
+        i++;
+        timeout(i);
 
     }, 3000);
 }
 
-timeout(1028);
+timeout(1);

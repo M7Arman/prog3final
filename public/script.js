@@ -24,9 +24,7 @@ function drawPieChart() {
             for (var i = 0; i < cars.length; i++) {
                 if (cars[i].price == "") continue;
                 cars[i].price.replace("0", ".");
-                console.log("aaa", cars[i].price);
                 var price = parseFloat(cars[i].price.replace(/\D/g, ''), 10);
-                console.log("price", price)
                 if (price < 1500) {
                     chartData[0][1]++;
                 } else if (price < 4000) {
@@ -35,14 +33,13 @@ function drawPieChart() {
                     chartData[2][1]++;
                 }
             }
-            console.log(chartData);
             data.addRows(chartData);
 
 
             var options = {
                 legend: 'left',
-                title: 'Air Composition',
-                is3D: false,
+                title: 'Cars prices',
+                is3D: true,
                 width: '100%',
                 height: '100%'
             };
