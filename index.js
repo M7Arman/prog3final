@@ -3,6 +3,8 @@ var request = require("request");
 var jsonfile = require('jsonfile');
 var promise = require('promise');
 var merge = require('deepmerge');
+var JSONPath = require('JSONPath');
+var fx = require('money');
 
 
 function getPageItems(pageNum) {
@@ -14,7 +16,7 @@ function getPageItems(pageNum) {
             isFinished = true;
             return;
         }
-        var cars = scrapeIt.scrapeHTML(body, {
+        var json = scrapeIt.scrapeHTML(body, {
             cars: {
                 listItem: ".gl a",
                 data: {
@@ -30,8 +32,9 @@ function getPageItems(pageNum) {
                 }
             }
         });
-        // console.log(cars);
-        writeInFile(cars, "cars.json", "cars");
+        // console.log(json);
+        amdToDollar(json.cars);
+        //writeInFile(cars, "cars.json", "cars");
 
     });
     return isFinished;
@@ -54,10 +57,23 @@ function writeInFile(json, fileName, rootKey) {
 
 }
 
+
+//TODO: There is a bug with converting from AMD to USD
+function amdToDollar(jsonArr) {
+    JSONPath({json: jsonArr, path: "$..price", callback: function (data) {
+        if(data.indexOf("֏") > -1) {
+            var price = parseFloat(data.replace(",", ""));
+            console.log("price", price);
+            var a = fx.convert(price, {from: "AMD", to: "USD"});
+            console.log(a);
+        } 
+    }});
+}
+
 function concatMerge(destinationArray, sourceArray, options) {
-    destinationArray // => [1, 2, 3]
-    sourceArray // => [3, 2, 1]
-    options // => { arrayMerge: concatMerge }
+    destinationArray
+    sourceArray
+    options
     return destinationArray.concat(sourceArray)
 }
 
@@ -73,4 +89,4 @@ function timeout(i) {
     }, 3000);
 }
 
-timeout(1);
+timeout(1031);
