@@ -55,12 +55,12 @@ function writeInFile(json, fileName, rootKey) {
 
 function normlayisePrice(jsonArr) {
     for (var i = 0; i < jsonArr.length; i++) {
-        var foo = jsonArr[i].price;
-        if (foo == "") {
+        var price = jsonArr[i].price;
+        if (price == "") {
             jsonArr[i].price = " -------";
             continue;
-        } else if (foo.indexOf("֏") > -1) {
-            jsonArr[i].price = foo.replace("֏", "դրամ");
+        } else if (price.indexOf("֏") > -1) {
+            jsonArr[i].price = price.replace("֏", "դրամ");
         }
     }
 }
