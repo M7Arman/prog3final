@@ -1,11 +1,7 @@
 const scrapeIt = require("scrape-it");
 var request = require("request");
 var jsonfile = require('jsonfile');
-var promise = require('promise');
 var merge = require('deepmerge');
-var JSONPath = require('JSONPath');
-var fx = require('money');
-
 
 function getPageItems(pageNum) {
     var isFinished = false;
@@ -32,9 +28,8 @@ function getPageItems(pageNum) {
                 }
             }
         });
-        // console.log(json);
-        amdToDollar(json.cars);
-        //writeInFile(cars, "cars.json", "cars");
+        normlayisePrice(json.cars);
+        writeInFile(json, "cars.json", "cars");
 
     });
     return isFinished;
@@ -58,16 +53,16 @@ function writeInFile(json, fileName, rootKey) {
 }
 
 
-//TODO: There is a bug with converting from AMD to USD
-function amdToDollar(jsonArr) {
-    JSONPath({json: jsonArr, path: "$..price", callback: function (data) {
-        if(data.indexOf("֏") > -1) {
-            var price = parseFloat(data.replace(",", ""));
-            console.log("price", price);
-            var a = fx.convert(price, {from: "AMD", to: "USD"});
-            console.log(a);
-        } 
-    }});
+function normlayisePrice(jsonArr) {
+    for (var i = 0; i < jsonArr.length; i++) {
+        var foo = jsonArr[i].price;
+        if (foo == "") {
+            jsonArr[i].price = " -------";
+            continue;
+        } else if (foo.indexOf("֏") > -1) {
+            jsonArr[i].price = foo.replace("֏", "դրամ");
+        }
+    }
 }
 
 function concatMerge(destinationArray, sourceArray, options) {
@@ -89,4 +84,4 @@ function timeout(i) {
     }, 3000);
 }
 
-timeout(1031);
+timeout(1);
